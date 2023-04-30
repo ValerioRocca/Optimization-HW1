@@ -10,7 +10,7 @@ sigma4 = np.array([[0.5, 0], [0, 4]])  # Modified standard deviation for sample 
 weights = [0.5, 0.5]
 
 # Generate random points in the L shape using the Bivariate Gaussian Mixture Distribution
-n_points = 1000
+n_points = 10000
 samples1 = np.random.multivariate_normal(mu1, sigma1, int(n_points*weights[0]))
 samples2 = np.random.multivariate_normal(mu2, sigma2, int(n_points*weights[1]))
 samples3 = np.random.multivariate_normal(mu3, sigma3, int(n_points*weights[0]))
