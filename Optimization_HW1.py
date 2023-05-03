@@ -1,3 +1,7 @@
+from xml.dom import pulldom
+import numpy as np
+import matplotlib.pyplot as plt
+
 # Set up parameters for the L shape
 mu1 = np.array([-2, 0])
 mu2 = np.array([2, 4])
@@ -44,9 +48,10 @@ class2_samples = all_samples[all_samples[:,2] == 1]
 class3_samples = all_samples[all_samples[:,2] == -1]
 
 # Plot the samples of each class with a different color and marker
-plt.scatter(class1_samples[:,0], class1_samples[:,1], color='grey', label='Unlabeled')
-plt.scatter(class2_samples[:,0], class2_samples[:,1], color='red', label='Label 1')
-plt.scatter(class3_samples[:,0], class3_samples[:,1], color='blue', label='Label -1')
+plt.scatter(class1_samples[:,0], class1_samples[:,1], color='grey', label='Unlabeled', alpha=0.1)
+plt.scatter(class2_samples[:,0], class2_samples[:,1], color='red', label='Label 1', alpha=0.1)
+plt.scatter(class3_samples[:,0], class3_samples[:,1], color='blue', label='Label -1', alpha=0.1)
+
 
 # Add legend and axis labels
 plt.legend()
