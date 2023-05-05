@@ -51,6 +51,10 @@ class2_samples = all_samples[all_samples[:,2] == -1]
 # Labeled matrix
 labeled_samples = np.concatenate((class1_samples, class2_samples))
 
+# Assign random label to unlabeled units
+random_unlabeled = unlabeled_samples
+random_unlabeled[:,2] = np.random.choice([-1, 1], size=(len(unlabeled_samples),)) 
+
 # Plot the samples of each class with a different color and marker
 #plt.scatter(unlabeled_samples[:,0], unlabeled_samples[:,1], color='grey', label='Unlabeled', alpha=0.5)
 #plt.scatter(class1_samples[:,0], class1_samples[:,1], color='red', label='Label 1', alpha=0.5)
@@ -65,6 +69,8 @@ labeled_samples = np.concatenate((class1_samples, class2_samples))
 # Show the plot
 #plt.show()
 
+
+
 # -------------------------------------
 
 # Part 2: similarity function distance = numpy.linalg.norm(a-b)
@@ -72,6 +78,7 @@ labeled_samples = np.concatenate((class1_samples, class2_samples))
 #b = np.array([4, 5, 6])
 #distance = np.linalg.norm(a-b)
 #print(distance)
+
 
 w = np.zeros((np.shape(unlabeled_samples)[0], np.shape(labeled_samples)[0]))
 w_bar = np.zeros((np.shape(unlabeled_samples)[0], np.shape(unlabeled_samples)[0]))
@@ -90,5 +97,15 @@ for row in range(np.shape(w_bar)[0]):
 #-----
 # Part 4: 
 
+def gradient_iterative(lab_samples, unlab_samples, w=w, w_bar=w_bar):
+  grads = []
+  for j in range(np.shape(unlab_samples)[0]):
+      grad = 0
+      for i in range(np.shape(lab_samples)[0]):
+          grad += w[i][j] * (unlab_samples[j] - lab_samples[i])
+      for i in range(np.shape(unlab_samples)[0]):
+          grad += w_bar[i][j] * (unlab_samples[j] - unlab_samples[i])
+      grads.append(2 * grad)
+  return np.array(grads)
 
-
+print(gradient_iterative(labeled_samples, unlabeled_samples))
