@@ -2,6 +2,7 @@ from xml.dom import pulldom
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Part 1: point generation (10000 points (5000 per class), 5% labeled)
 # Set up parameters for the L shape
 mu1 = np.array([-2, 0])
 mu2 = np.array([2, 4])
@@ -48,9 +49,9 @@ class2_samples = all_samples[all_samples[:,2] == 1]
 class3_samples = all_samples[all_samples[:,2] == -1]
 
 # Plot the samples of each class with a different color and marker
-plt.scatter(class1_samples[:,0], class1_samples[:,1], color='grey', label='Unlabeled', alpha=0.1)
-plt.scatter(class2_samples[:,0], class2_samples[:,1], color='red', label='Label 1', alpha=0.1)
-plt.scatter(class3_samples[:,0], class3_samples[:,1], color='blue', label='Label -1', alpha=0.1)
+plt.scatter(class1_samples[:,0], class1_samples[:,1], color='grey', label='Unlabeled', alpha=0.5)
+plt.scatter(class2_samples[:,0], class2_samples[:,1], color='red', label='Label 1', alpha=0.5)
+plt.scatter(class3_samples[:,0], class3_samples[:,1], color='blue', label='Label -1', alpha=0.5)
 
 
 # Add legend and axis labels
@@ -60,3 +61,14 @@ plt.ylabel('Y')
 
 # Show the plot
 plt.show()
+
+# -------------------------------------
+
+# Part 2: similarity function distance = numpy.linalg.norm(a-b)
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+distance = np.linalg.norm(a-b)
+print(distance)
+
+# -------------------------------------
+
