@@ -138,9 +138,15 @@ def gradient(lab_samples, unlab_samples, w=w, w_bar=w_bar):
 
 def gradient_descent(lab_samples, unlab_samples, alpha=0.01, epochs=10):
     y_lab = np.copy(unlab_samples[:, 2])
+
     for i in range(epochs):
         grads = gradient(lab_samples, unlab_samples)
+
+        if np.linalg.norm(grads) < 0.05: 
+            break
+
         y_lab -= alpha * grads
+
     return y_lab
 
 
@@ -169,10 +175,17 @@ def rand_gradient(lab_samples, unlab_samples, w=w, w_bar=w_bar):
 
 def rand_bcgd(lab_samples, unlab_samples, alpha=0.05, epochs=1000):
     y = np.copy(unlab_samples)
+
     for _ in range(epochs):
         grads = rand_gradient(lab_samples, y)
+
+        if np.linalg.norm(grads) < 0.05: 
+            break
+
         y[:, 2] -= alpha * grads
+
     y_lab = np.copy(y[:, 2])
+
     return y_lab
 
 
@@ -195,10 +208,17 @@ def max_gradient(lab_samples, unlab_samples):
 
 def gs_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=500):
     y = np.copy(unlab_samples)
+
     for _ in range(epochs):
         grads = max_gradient(lab_samples, y)
+
+        if np.linalg.norm(grads) < 0.05: 
+            break
+
         y[:, 2] -= alpha * grads
+
     y_lab = np.copy(y[:, 2])
+
     return y_lab
 
 
