@@ -28,11 +28,15 @@ samples4 = np.random.multivariate_normal(mu4, sigma4, int(n_points * weights[3])
 class1 = np.concatenate((samples2, samples1))
 class1 = np.c_[class1, np.zeros(len(class1))]
 count = 0
+true_unlab = []
 for i in class1:
     if count == 19:
         count = 0
         i[2] = 1
+    else: 
+      true_unlab.append(1)
     count += 1
+
 class2 = np.concatenate((samples3, samples4))
 class2 = np.c_[class2, np.zeros(len(class2))]
 count = 0
@@ -40,6 +44,8 @@ for i in class2:
     if count == 19:
         count = 0
         i[2] = -1
+    else: 
+      true_unlab.append(-1)
     count += 1
 
 # Combine the samples of all three classes
@@ -130,7 +136,7 @@ def gradient(lab_samples, unlab_samples, w=w, w_bar=w_bar):
     return np.array(grads)
 
 
-def gradient_descent(lab_samples, unlab_samples, alpha=0.001, epochs=500):
+def gradient_descent(lab_samples, unlab_samples, alpha=0.01, epochs=10):
     y_lab = np.copy(unlab_samples[:, 2])
     for i in range(epochs):
         grads = gradient(lab_samples, unlab_samples)
@@ -141,7 +147,7 @@ def gradient_descent(lab_samples, unlab_samples, alpha=0.001, epochs=500):
 y_lab_gd = gradient_descent(labeled_samples, random_unlabeled)
 y_lab_gd_p = threshold_sel(y_lab_gd)
 print("Accuracy for Gradient Descent")
-# accuracy_score(unlabeled_samples[:, 2], y_lab_gd_p)
+print(accuracy_score(true_unlab, y_lab_gd_p))
 print("Number of 1 in Gradient Descent {}".format(np.sum(y_lab_gd_p == 1) / len(y_lab_gd_p)))
 print("Number of -1 in Gradient Descent {}".format(np.sum(y_lab_gd_p == -1) / len(y_lab_gd_p)))
 
@@ -161,7 +167,7 @@ def rand_gradient(lab_samples, unlab_samples, w=w, w_bar=w_bar):
     return grads
 
 
-def rand_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=1200):
+def rand_bcgd(lab_samples, unlab_samples, alpha=0.05, epochs=1000):
     y = np.copy(unlab_samples)
     for _ in range(epochs):
         grads = rand_gradient(lab_samples, y)
@@ -173,7 +179,7 @@ def rand_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=1200):
 y_lab_rand_bcgd = rand_bcgd(labeled_samples, random_unlabeled)
 y_lab_rand_bcgd_p = threshold_sel(y_lab_rand_bcgd)
 print("Accuracy for Randomized BCGD")
-# accuracy_score(unlabeled_samples[:, 2], y_lab_rand_bcgd_p)
+print(accuracy_score(true_unlab, y_lab_rand_bcgd_p))
 print("Frequency of 1 in Randomized BCGD {}".format(np.sum(y_lab_rand_bcgd_p == 1) / len(y_lab_rand_bcgd_p)))
 print("Frequency of -1 in Randomized BCGD {}".format(np.sum(y_lab_rand_bcgd_p == -1) / len(y_lab_rand_bcgd_p)))
 
@@ -187,7 +193,7 @@ def max_gradient(lab_samples, unlab_samples):
     grads[j] = grad[j]
     return grads
 
-def gs_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=1200):
+def gs_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=500):
     y = np.copy(unlab_samples)
     for _ in range(epochs):
         grads = max_gradient(lab_samples, y)
@@ -199,7 +205,7 @@ def gs_bcgd(lab_samples, unlab_samples, alpha=0.001, epochs=1200):
 y_lab_gs_bcgd = gs_bcgd(labeled_samples, random_unlabeled)
 y_lab_gs_bcgd_p = threshold_sel(y_lab_gs_bcgd)
 print("Accuracy for Gauss Sauthwell BCGD")
-# accuracy_score(unlabeled_samples[:, 2], y_lab_gs_bcgd_p)
+print(accuracy_score(true_unlab, y_lab_gs_bcgd_p))
 
 print("Frequency of 1 in Gauss Sauthwell BCGD {}".format(np.sum(y_lab_gs_bcgd_p == 1) / len(y_lab_gs_bcgd_p)))
 print("Frequency of -1 in Gauss Sauthwell BCGD {}".format(np.sum(y_lab_gs_bcgd_p == -1) / len(y_lab_gs_bcgd_p)))
