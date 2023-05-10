@@ -197,7 +197,7 @@ print("Frequency of 1 in Randomized BCGD {}".format(np.sum(y_lab_rand_bcgd_p == 
 print("Frequency of -1 in Randomized BCGD {}".format(np.sum(y_lab_rand_bcgd_p == -1) / len(y_lab_rand_bcgd_p)))
 
 
-# Gauss Sauthwell BCGD
+# Gauss Southwell BCGD
 
 def max_gradient(lab_samples, unlab_samples):
     grad = gradient(lab_samples, unlab_samples)
